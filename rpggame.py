@@ -1,6 +1,7 @@
 # To do: Make class for "Hero" character.
 # To do: Implement random function for a minigame.
 # To do: Add spaces between paragraphs.
+# Adding changes to test comitting to Git.
 
 class Hero:
     def __init__(self, name, hp, damage, mana):
