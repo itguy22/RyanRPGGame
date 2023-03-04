@@ -139,3 +139,7 @@ if decision2 == "1":
     print(
         f"Goblin: King? Kingdom? War? You think I care about your petty {charrace} problems?")
     print("Goblin: Now, before I get angry, hand over everything you've got!")
+if decision2 == "2":
+    print("You draw your weapon, ready to attack the Goblin.")
+    print("Goblin: What's this? A fight? You won't stand a chance!")
+    print("The Goblin pulls out a cleaver from behind him, and charges you.")
