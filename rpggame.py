@@ -142,4 +142,4 @@ if decision2 == "1":
 if decision2 == "2":
     print("You draw your weapon, ready to attack the Goblin.")
     print("Goblin: What's this? A fight? You won't stand a chance!")
-    print("The Goblin pulls out a cleaver from behind him, and charges you.")
+    print("The Goblin pulls out a dagger from behind him, and charges you.")
