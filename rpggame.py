@@ -20,6 +20,12 @@ class Hero:
         return self.mana
 
 
+class Enemy:
+    def __init__(self, en_hp, en_damage):
+        self.hp = en_hp
+        self.damage = en_damage
+
+
 class Mage(Hero):
     def __init__(self, name, hp, damage, mana, spell):
         super().__init__(name, hp, damage, mana)
