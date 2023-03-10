@@ -1,7 +1,5 @@
 # To do: Make class for "Hero" character.
 # To do: Implement random function for a minigame.
-# To do: Add spaces between paragraphs.
-# Adding changes to test comitting to Git.
 
 class Hero:
     def __init__(self, name, hp, damage, mana):
@@ -19,7 +17,19 @@ class Hero:
     def get_mana(self):
         return self.mana
 
+class Enemy:
+    def __init__(self, en_name, en_hp, en_damage, en_ability):
+        self.name = en_name
+        self.hp = en_hp
+        self.damage = en_damage
+        self.ability = en_ability
 
+    def getHealth(self):
+        return self.hp
+
+    def getDamage(self):
+        return self.damage
+    
 class Mage(Hero):
     def __init__(self, name, hp, damage, mana, spell):
         super().__init__(name, hp, damage, mana)
@@ -101,7 +111,7 @@ while True:
     else:
         print("Please choose a valid selection.")
 
-print("\n You approach the entrance of the forest from the road, it is separated from the road by a small clearing of felled land.")
+print("\nYou approach the entrance of the forest from the road, it is separated from the road by a small clearing of felled land.")
 print("You enter the forest, as soon as you enter the trees start to close in around you and it grows darker, much darker. You hear a crow call out from deeper in the woods.")
 print("It is just beginning to turn to dusk, as you walk leaves crunch softly under your boots.")
 input("Press Enter to Continue...")
