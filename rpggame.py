@@ -1,39 +1,65 @@
 # To do: Make class for "Hero" character.
 # To do: Implement random function for a minigame.
-
 class Hero:
-    def __init__(self, name, hp, damage, mana):
+    def __init__(self, name, health, mana, strength, agility, intelligence):
         self.name = name
-        self.hp = hp
-        self.damage = damage
+        self.health = health
         self.mana = mana
+        self.strength = strength
+        self.agility = agility
+        self.intelligence = intelligence
 
-    def get_hp(self):
-        return self.hp
+    def attack(self, target):
+        damage = self.strength * 2
+        target.receive_damage(damage)
 
-    def get_damage(self):
-        return self.damage
+    def receive_damage(self, damage):
+        self.health -= damage
 
-    def get_mana(self):
-        return self.mana
+    def use_mana(self, amount):
+        if amount <= self.mana:
+            self.mana -= amount
+            return True
+        else:
+            return False
+
+
+def create_hero():
+    name = input("Enter your hero's name: ")
+    health = 100
+    mana = 50
+    strength = 10
+    agility = 20
+    intelligence = 30
+    return Hero(name, health, mana, strength, agility, intelligence)
+
 
 class Enemy:
-    def __init__(self, en_name, en_hp, en_damage, en_ability):
-        self.name = en_name
-        self.hp = en_hp
-        self.damage = en_damage
-        self.ability = en_ability
+    def __init__(self, name, health, mana, strength, agility, intelligence):
+        self.name = name
+        self.health = health
+        self.mana = mana
+        self.strength = strength
+        self.agility = agility
+        self.intelligence = intelligence
 
-    def getHealth(self):
-        return self.hp
+    def attack(self, target):
+        damage = self.strength * 2
+        target.receive_damage(damage)
 
-    def getDamage(self):
-        return self.damage
-    
-class Mage(Hero):
-    def __init__(self, name, hp, damage, mana, spell):
-        super().__init__(name, hp, damage, mana)
-        self.spell = "Fireball"
+    def receive_damage(self, damage):
+        self.health -= damage
+
+    def use_mana(self, amount):
+        if amount <= self.mana:
+            self.mana -= amount
+            return True
+        else:
+            return False
+
+
+player_hero = create_hero()
+print(f"Welcome {player_hero.name}!")
 
 
 rogue = "Rogue"
@@ -111,7 +137,7 @@ while True:
     else:
         print("Please choose a valid selection.")
 
-print("\nYou approach the entrance of the forest from the road, it is separated from the road by a small clearing of felled land.")
+print("\n You approach the entrance of the forest from the road, it is separated from the road by a small clearing of felled land.")
 print("You enter the forest, as soon as you enter the trees start to close in around you and it grows darker, much darker. You hear a crow call out from deeper in the woods.")
 print("It is just beginning to turn to dusk, as you walk leaves crunch softly under your boots.")
 input("Press Enter to Continue...")
