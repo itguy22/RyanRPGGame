@@ -1,36 +1,88 @@
-# To do: Make class for "Hero" character.
-# To do: Implement random function for a minigame.
-# To do: Add spaces between paragraphs.
-# Adding changes to test comitting to Git.
-
 class Hero:
-    def __init__(self, name, hp, damage, mana):
+    def __init__(self, name, health, mana, strength, agility, intelligence):
         self.name = name
-        self.hp = hp
-        self.damage = damage
+        self.health = health
         self.mana = mana
+        self.strength = strength
+        self.agility = agility
+        self.intelligence = intelligence
 
-    def get_hp(self):
-        return self.hp
+    def attack(self, target):
+        damage = self.strength * 2
+        target.receive_damage(damage)
 
-    def get_damage(self):
-        return self.damage
+    def receive_damage(self, damage):
+        self.health -= damage
 
-    def get_mana(self):
-        return self.mana
+    def use_mana(self, amount):
+        if amount <= self.mana:
+            self.mana -= amount
+            return True
+        else:
+            return False
+
+
+def create_hero():
+    name = input("Enter your hero's name: ")
+    health = 100
+    mana = 50
+    strength = 10
+    agility = 20
+    intelligence = 30
+    return Hero(name, health, mana, strength, agility, intelligence)
 
 
 class Enemy:
-    def __init__(self, en_hp, en_damage):
-        self.hp = en_hp
-        self.damage = en_damage
+    def __init__(self, name, health, mana, strength, agility, intelligence):
+        self.name = name
+        self.health = health
+        self.mana = mana
+        self.strength = strength
+        self.agility = agility
+        self.intelligence = intelligence
+
+    def attack(self, target):
+        damage = self.strength * 2
+        target.receive_damage(damage)
+
+    def receive_damage(self, damage):
+        self.health -= damage
+
+    def use_mana(self, amount):
+        if amount <= self.mana:
+            self.mana -= amount
+            return True
+        else:
+            return False
 
 
-class Mage(Hero):
-    def __init__(self, name, hp, damage, mana, spell):
-        super().__init__(name, hp, damage, mana)
-        self.spell = "Fireball"
+def battle(hero, enemy):
+    while hero.health > 0 and enemy.health > 0:
+        # Hero's turn
+        print(hero.name + "'s turn!")
+        hero.attack(enemy)
+        print(enemy.name + " received " + str(hero.strength * 2) + " damage!")
+        if enemy.health <= 0:
+            print(enemy.name + " has been defeated!")
+            break
 
+        # Enemy's turn
+        print(enemy.name + "'s turn!")
+        enemy.attack(hero)
+        print(hero.name + " received " + str(enemy.strength * 2) + " damage!")
+        if hero.health <= 0:
+            print(hero.name + " has been defeated!")
+            break
+
+    print("The battle is over.")
+
+
+player_hero = create_hero()
+print(f"Welcome {player_hero.name}!")
+
+my_enemy = Enemy("Goblin", 50, 0, 8, 12, 5)
+
+# my_enemy.attack(player_hero)
 
 rogue = "Rogue"
 paladin = "Paladin"
@@ -58,13 +110,13 @@ while True:
     if playerclass == "warrior" or playerclass == "Warrior":
         charclass = warrior
         charhp = warrior_hp
-        print(f"You have chosen a Warrior.")
+        print("You have chosen a Warrior.")
         print(f"Your HP is: {charhp}.")
         break
     elif playerclass == "Paladin" or playerclass == "paladin":
         charclass = paladin
         charhp = paladin_hp
-        print(f"You have chosen a Paladin.")
+        print("You have chosen a Paladin.")
         print(f"Your HP is {charhp}")
         break
     elif playerclass == "Mage" or playerclass == "mage":
@@ -145,7 +197,10 @@ if decision2 == "1":
     print(
         f"Goblin: King? Kingdom? War? You think I care about your petty {charrace} problems?")
     print("Goblin: Now, before I get angry, hand over everything you've got!")
+    print("The Goblin lunges at you with a dagger.")
+    battle(player_hero, my_enemy)
 if decision2 == "2":
     print("You draw your weapon, ready to attack the Goblin.")
     print("Goblin: What's this? A fight? You won't stand a chance!")
     print("The Goblin pulls out a dagger from behind him, and charges you.")
+    battle(player_hero, my_enemy)
