@@ -1,100 +1,36 @@
 # To do: Make class for "Hero" character.
 # To do: Implement random function for a minigame.
-
-import time
-
+# To do: Add spaces between paragraphs.
+# Adding changes to test comitting to Git.
 
 class Hero:
-    def __init__(self, name, health, mana, strength, agility, intelligence):
+    def __init__(self, name, hp, damage, mana):
         self.name = name
-        self.health = health
+        self.hp = hp
+        self.damage = damage
         self.mana = mana
-        self.strength = strength
-        self.agility = agility
-        self.intelligence = intelligence
 
-    def attack(self, target):
-        damage = self.strength * 2
-        target.receive_damage(damage)
+    def get_hp(self):
+        return self.hp
 
-    def receive_damage(self, damage):
-        self.health -= damage
+    def get_damage(self):
+        return self.damage
 
-    def use_mana(self, amount):
-        if amount <= self.mana:
-            self.mana -= amount
-            return True
-        else:
-            return False
-
-
-def create_hero():
-    name = input("Enter your hero's name: ")
-    health = 100
-    mana = 50
-    strength = 10
-    agility = 20
-    intelligence = 30
-    return Hero(name, health, mana, strength, agility, intelligence)
+    def get_mana(self):
+        return self.mana
 
 
 class Enemy:
-    def __init__(self, name, health, mana, strength, agility, intelligence):
-        self.name = name
-        self.health = health
-        self.mana = mana
-        self.strength = strength
-        self.agility = agility
-        self.intelligence = intelligence
-
-    def attack(self, target):
-        damage = self.strength * 2
-        target.receive_damage(damage)
-
-    def receive_damage(self, damage):
-        self.health -= damage
-
-    def use_mana(self, amount):
-        if amount <= self.mana:
-            self.mana -= amount
-            return True
-        else:
-            return False
+    def __init__(self, en_hp, en_damage):
+        self.hp = en_hp
+        self.damage = en_damage
 
 
-def battle(hero, enemy):
-    while hero.health > 0 and enemy.health > 0:
-        # Hero's turn
-        print(hero.name + "'s turn!")
-        hero.attack(enemy)
-        print(enemy.name + " received " + str(hero.strength * 2) + " damage!")
-        if enemy.health <= 0:
-            print(enemy.name + " has been defeated!")
-            break
+class Mage(Hero):
+    def __init__(self, name, hp, damage, mana, spell):
+        super().__init__(name, hp, damage, mana)
+        self.spell = "Fireball"
 
-        # Prompt player to attack
-        input("Press enter to continue...")
-
-        # Enemy's turn
-        print(enemy.name + "'s turn!")
-        enemy.attack(hero)
-        print(hero.name + " received " + str(enemy.strength * 2) + " damage!")
-        if hero.health <= 0:
-            print(hero.name + " has been defeated!")
-            break
-
-        # Prompt player to attack
-        input("Press enter to continue...")
-
-    print("The battle is over.")
-
-
-player_hero = create_hero()
-print(f"Welcome {player_hero.name}!")
-
-my_enemy = Enemy("Goblin", 50, 0, 8, 12, 5)
-
-# my_enemy.attack(player_hero)
 
 rogue = "Rogue"
 paladin = "Paladin"
@@ -118,7 +54,6 @@ input("Press Enter to continue...")
 print("\nTo get started, please create your character.")
 print("| Warrior | Paladin | Mage | Rogue | Archer |")
 playerclass = input("Choose your class:")
-
 while True:
     if playerclass == "warrior" or playerclass == "Warrior":
         charclass = warrior
@@ -154,21 +89,29 @@ while True:
         print("Please make a valid selection.")
 
 while True:
+    charname = input("Give your character a name:")
+    if len(charname) < 1 or len(charname) > 10:
+        print("Please enter a name between 1-10 characters")
+    else:
+        print(f"Your name is: {charname}")
+        break
+
+while True:
     print("Races: Human | Elf | Dwarf | Halfling")
     races = ["Human", "Elf", "Dwarf", "Halfling"]
     charrace = input("Please choose your character's race:")
     if charrace in races:
         print(f"You have chosen {charrace}")
-        print(f"You are a {charrace} {charclass} named {player_hero.name}")
+        print(f"You are a {charrace} {charclass} named {charname}")
         break
     else:
         print("Please choose a valid selection.")
 
-print("\nYou approach the entrance of the forest from the road, it is separated from the road by a small clearing of felled land.")
+print("\n You approach the entrance of the forest from the road, it is separated from the road by a small clearing of felled land.")
 print("You enter the forest, as soon as you enter the trees start to close in around you and it grows darker, much darker. You hear a crow call out from deeper in the woods.")
 print("It is just beginning to turn to dusk, as you walk leaves crunch softly under your boots.")
 input("Press Enter to Continue...")
-print("\nAs you are walking through the forest, you approach a small clearing. In the center of the clearing, you see an unlit fire. Surrounding the fire are some woolen blankets and bedrolls.")
+print("As you are walking through the forest, you approach a small clearing. In the center of the clearing, you see an unlit fire. Surrounding the fire are some woolen blankets and bedrolls.")
 print("You approach the fire and tents, it looks as though there are just a few sparks of flame left in the fire. There is a teapot nearby, you touch it, it is cold to the touch.")
 print("1. Investigate the area further.")
 print("2. Leave the area.")
@@ -198,14 +141,11 @@ print("What do you do?")
 print("1. Try to talk to the Goblin, 2. Fight the goblin, 3. Attempt to run away")
 decision2 = input("Pick an option...")
 if decision2 == "1":
-    print("You try to reason with the Goblin, telling him that you're on an important mission from the King of Aeterna and that you're in a hurry.")
+    print("You try to reason with the Goblin, telling him that you're on an important mission from the King of Lyrica and to leave you alone.")
     print(
         f"Goblin: King? Kingdom? War? You think I care about your petty {charrace} problems?")
     print("Goblin: Now, before I get angry, hand over everything you've got!")
-    print("The Goblin lunges at you with a dagger!")
-    battle(player_hero, my_enemy)
 if decision2 == "2":
     print("You draw your weapon, ready to attack the Goblin.")
     print("Goblin: What's this? A fight? You won't stand a chance!")
-    print("The Goblin pulls out a dagger from his boot, and charges you.")
-    battle(player_hero, my_enemy)
+    print("The Goblin pulls out a dagger from behind him, and charges you.")
