@@ -1,11 +1,22 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
+# pylint: disable=I
+
+import random
+
+
 class Hero:
-    def __init__(self, name, health, mana, strength, agility, intelligence):
+    def __init__(self, name, health, mana, strength, agility, intelligence, level=1, exp=0):
         self.name = name
         self.health = health
         self.mana = mana
         self.strength = strength
         self.agility = agility
         self.intelligence = intelligence
+        self.level = level
+        self.exp = exp
 
     def attack(self, target):
         damage = self.strength * 2
@@ -20,6 +31,21 @@ class Hero:
             return True
         else:
             return False
+
+    def gain_exp(self, amount):
+        self.exp += amount
+        if self.exp >= 100 * self.level:
+            self.level_up()
+
+    def level_up(self):
+        self.level += 1
+        self.exp = 0
+        self.health += 10
+        self.mana += 5
+        self.strength += 2
+        self.agility += 2
+        self.intelligence += 2
+        print(f"{self.name} leveled up to level {self.level}!")
 
 
 def create_hero():
@@ -66,6 +92,9 @@ def battle(hero, enemy):
             print(enemy.name + " has been defeated!")
             break
 
+        # Prompt player to attack
+        input("Press enter to continue...")
+
         # Enemy's turn
         print(enemy.name + "'s turn!")
         enemy.attack(hero)
@@ -74,100 +103,125 @@ def battle(hero, enemy):
             print(hero.name + " has been defeated!")
             break
 
+        # Prompt player to attack
+        input("Press enter to continue...")
+
     print("The battle is over.")
 
+
+def select_class():
+    print("Please select a character class: ")
+    classes = ["Warrior", "Paladin", "Rogue", "Archer", "Mage"]
+    for i, class_name in enumerate(classes):
+        print(f"{i+1}. {class_name}")
+    while True:
+        try:
+            class_index = int(
+                input("Enter the number of the class you want to select: "))
+            if class_index < 1 or class_index > len(classes):
+                raise ValueError
+            else:
+                return classes[class_index - 1]
+        except ValueError:
+            print("Invalid input. Please enter a valid class number.")
+
+
+def select_race():
+    races = ['Human', 'Elf', 'Dwarf', 'Halfling']
+    while True:
+        print('Please select your race: ')
+        for i, race in enumerate(races):
+            print(f'{i + 1}. {race}')
+        choice = input('Enter your choice (1-4): ')
+        if choice.isdigit() and int(choice) in range(1, 5):
+            return races[int(choice) - 1]
+        else:
+            print('Invalid choice. Please enter a number between 1 and 4.')
+
+
+class Item:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+    def __str__(self):
+        return f"{self.name}: {self.description}"
+
+
+class Potion(Item):
+    def __init__(self, name, description, potion_type, amount):
+        super().__init__(name, description)
+        self.potion_type = potion_type
+        self.amount = amount
+
+    def use(self, character):
+        if self.potion_type == "health":
+            character.health += self.amount
+            print(f"{character.name} gained {self.amount} health.")
+        elif self.potion_type == "mana":
+            character.mana += self.amount
+            print(f"{character.name} gained {self.amount} mana.")
+
+
+class Character:
+    def __init__(self, name, health, mana):
+        self.name = name
+        self.health = health
+        self.mana = mana
+
+    def __str__(self):
+        return f"{self.name} - Health: {self.health}, Mana: {self.mana}"
+
+
+health_potion = Potion(
+    "Health Potion", "Restores 20 health points", "health", 20)
+mana_potion = Potion("Mana Potion", "Restores 10 mana points", "mana", 10)
 
 player_hero = create_hero()
 print(f"Welcome {player_hero.name}!")
 
+player_class = select_class()
+print(f"You have selected the {player_class} class!")
+
 my_enemy = Enemy("Goblin", 50, 0, 8, 12, 5)
 
+player_race = select_race()
+print(f"You have chosen to be a {player_race}")
+
+
+def roll_dice_to_escape():
+    escape_chance = 50  # Percentage chance to escape
+    player_roll = random.randint(1, 100)  # Roll a 100-sided dice
+
+    if player_roll <= escape_chance:
+        print("You successfully escaped the battle!")
+        return True
+    else:
+        print("You failed to escape the battle. Prepare to fight!")
+        return False
+
+
 # my_enemy.attack(player_hero)
-
-rogue = "Rogue"
-paladin = "Paladin"
-warrior = "Warrior"
-mage = "Mage"
-archer = "Archer"
-
-rogue_hp = 200
-archer_hp = 200
-paladin_hp = 300
-warrior_hp = 300
-mage_hp = 150
 
 inventory = []
 
 print("***Ryan's Fantasy RPG Game***")
 print("You walk along a bumpy cobblestone road, it is a foggy morning with the sun just shining through the fog. You smell thick smoke in the air, and you hear the distant sound of army orders and siege engines in the distance...")
-print("It has been three days since you escaped from Castle Cerys in the Kingdom of Cyrillon. The Castellan sent for you this morning and handed you a letter from the King himself. The letter requests aid from the neighboring kingdom of Aeterna, for the castle is being sieged by Imperial forces..")
+print("It has been three days since you escaped from Castle Cerys in the Kingdom of Cyrillon. The Castellan sent for you this morning and handed you a letter from the King himself. The letter requests aid from the neighboring Kingdom of Aeterna,  for the castle is being sieged by Imperial forces..")
 print("You have been tasked with delivering the letter to the King of Aeterna. First however, you must cross the treacherous Enchanted Forest which lies in your way.")
 input("Press Enter to continue...")
-print("\nTo get started, please create your character.")
-print("| Warrior | Paladin | Mage | Rogue | Archer |")
-playerclass = input("Choose your class:")
-while True:
-    if playerclass == "warrior" or playerclass == "Warrior":
-        charclass = warrior
-        charhp = warrior_hp
-        print("You have chosen a Warrior.")
-        print(f"Your HP is: {charhp}.")
-        break
-    elif playerclass == "Paladin" or playerclass == "paladin":
-        charclass = paladin
-        charhp = paladin_hp
-        print("You have chosen a Paladin.")
-        print(f"Your HP is {charhp}")
-        break
-    elif playerclass == "Mage" or playerclass == "mage":
-        charclass = mage
-        charhp = mage_hp
-        print("You have chosen a Mage.")
-        print(f"Your HP is {charhp}")
-        break
-    elif playerclass == "Archer" or playerclass == "archer":
-        charclass = archer
-        charhp = archer_hp
-        print("You have chosen an Archer.")
-        print(f"Your HP is: {charhp}")
-        break
-    elif playerclass == "Rogue" or playerclass == "rogue":
-        charclass = rogue
-        charhp = rogue_hp
-        print("You have chosen a Rogue.")
-        print(f"Your HP is: {charhp}")
-        break
-    else:
-        print("Please make a valid selection.")
 
-while True:
-    charname = input("Give your character a name:")
-    if len(charname) < 1 or len(charname) > 10:
-        print("Please enter a name between 1-10 characters")
-    else:
-        print(f"Your name is: {charname}")
-        break
-
-while True:
-    print("Races: Human | Elf | Dwarf | Halfling")
-    races = ["Human", "Elf", "Dwarf", "Halfling"]
-    charrace = input("Please choose your character's race:")
-    if charrace in races:
-        print(f"You have chosen {charrace}")
-        print(f"You are a {charrace} {charclass} named {charname}")
-        break
-    else:
-        print("Please choose a valid selection.")
-
-print("\n You approach the entrance of the forest from the road, it is separated from the road by a small clearing of felled land.")
+print("\nYou approach the entrance of the forest from the road, it is separated from the road by a small clearing of felled land.")
 print("You enter the forest, as soon as you enter the trees start to close in around you and it grows darker, much darker. You hear a crow call out from deeper in the woods.")
 print("It is just beginning to turn to dusk, as you walk leaves crunch softly under your boots.")
 input("Press Enter to Continue...")
+
 print("As you are walking through the forest, you approach a small clearing. In the center of the clearing, you see an unlit fire. Surrounding the fire are some woolen blankets and bedrolls.")
 print("You approach the fire and tents, it looks as though there are just a few sparks of flame left in the fire. There is a teapot nearby, you touch it, it is cold to the touch.")
 print("1. Investigate the area further.")
 print("2. Leave the area.")
 decision1 = input("Pick an option...")
+
 while True:
     if decision1 == "1":
         print("\nYou decide to investigate the area further. You take a look inside the tent closest to you, inside you see an unfurled bedroll and a broken lamp.")
@@ -195,12 +249,29 @@ decision2 = input("Pick an option...")
 if decision2 == "1":
     print("You try to reason with the Goblin, telling him that you're on an important mission from the King of Lyrica and to leave you alone.")
     print(
-        f"Goblin: King? Kingdom? War? You think I care about your petty {charrace} problems?")
+        f"Goblin: King? Kingdom? War? You think I care about your petty {player_race} problems?")
     print("Goblin: Now, before I get angry, hand over everything you've got!")
-    print("The Goblin lunges at you with a dagger.")
+    print("The Goblin pulls out a dagger from his boot and charges you!")
     battle(player_hero, my_enemy)
+    player_hero.gain_exp(50)
 if decision2 == "2":
     print("You draw your weapon, ready to attack the Goblin.")
     print("Goblin: What's this? A fight? You won't stand a chance!")
-    print("The Goblin pulls out a dagger from behind him, and charges you.")
+    print("The Goblin pulls out a dagger from his boot and charges you!")
     battle(player_hero, my_enemy)
+    player_hero.gain_exp(50)
+elif decision2 == "3":
+    print("You attempt to run away from the Goblin.")
+    if __name__ == "__main__":
+        ESCAPED = roll_dice_to_escape()
+        if not ESCAPED:
+            # Continue with the battle logic against the NPC
+            pass
+battle(player_hero, my_enemy)
+print("You loot a Health Potion from the Goblin.")
+print("Health Potion has been added to your inventory.")
+inventory.append("Health Potion")
+print("You start walking again as night falls over the forest.")
+print("It grows colder as night sets in, and the clouds gather, it starts raining...")
+print("The cold chills you to the bone, you keep walking and see nothing for a while, then in the distance you spot a small clearing and a road running through it.")
+print("You can just barely make things out on the road, but it looks like there's an upturned cart up ahead. You can see a figure, human-height standing next to it.")
