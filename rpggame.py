@@ -1,8 +1,6 @@
-# pylint: disable=missing-module-docstring
-# pylint: disable=missing-class-docstring
-# pylint: disable=missing-function-docstring
+# Paladin characters (near end of game, after encounter with Sorcerer)
 
-# pylint: disable=I
+# Sorcerer character (near end of game)
 
 import random
 
@@ -275,3 +273,22 @@ print("You start walking again as night falls over the forest.")
 print("It grows colder as night sets in, and the clouds gather, it starts raining...")
 print("The cold chills you to the bone, you keep walking and see nothing for a while, then in the distance you spot a small clearing and a road running through it.")
 print("You can just barely make things out on the road, but it looks like there's an upturned cart up ahead. You can see a figure, human-height standing next to it.")
+print("What will you do?")
+print("1. Approach the cart. 2. Continue walking.")
+decision3 = input("Pick an option...")
+if decision3 == "1":
+    print("You start walking towards the cart, as you approach it you see that it is a man standing next to the cart. He appears to be frustrated.")
+    print("You walk up to the man and greet him.")
+    print("The man looks up, surprised to see anyone else in the middle of nowhere. He greets you.")
+    print("Man: Hello stranger, I'm glad to see someone else out here. My cart broke down, i've been out here since daybreak.")
+    print("You look at the cart, and notice that the wheels are bent at an angle and broken.")
+    print("Stranger: I'm a merchant from the Kingdom of Cyrillon, I was on my way to the Kingdom of Aeterna when my cart's wheel got stuck in the mud and broke.")
+    print("Will you help me fix it? I don't have much with me but I can give you a reward.")
+    print("1. Yes, I will help you. 2. No, I'm in a hurry. 3. Draw your weapon.")
+    decision4 = input("Pick an option...")
+    if decision4 == "1":
+        print("Stranger: Thank you! Here, please hold the wheel while I try to repair it.")
+        print("You hold the wheel while the stranger fixes it. While you are holding it, you notice that there are some arrows stuck in the cart.")
+        print("The man finishes fixing the wheel.")
+        print("Stranger: Thank you for your help, I don't know if I would have been able to fix it on my own. The name's Alex, what's yours?")
+        print("You tell him your name.")
