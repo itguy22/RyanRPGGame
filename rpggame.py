@@ -2,6 +2,8 @@
 
 # Sorcerer character (near end of game)
 
+# Utilize mana for spells (Sorcerer)
+
 import random
 
 
@@ -292,3 +294,14 @@ if decision3 == "1":
         print("The man finishes fixing the wheel.")
         print("Stranger: Thank you for your help, I don't know if I would have been able to fix it on my own. The name's Alex, what's yours?")
         print("You tell him your name.")
+        print(f"Alex: {player_hero.name}, that sounds like an Cyrillan name. Are you from the Kingdom of Cyrillon?")
+        print("You tell him that you are from Cyrillon, and that you are on an important mission from the King. You describe the mission to him.")
+    if decision4 == "2":
+        print("Stranger: Oh, I see. Well, I guess I'll just have to fix it myself then.")
+        print("The stranger lets out a sigh and starts working on fixing the wheel.")
+        print("You continue walking along the road.")
+    if decision4 == "3":
+        print("What are you doing? Put that thing away before you get hurt!")
+        print("The man pulls out a shortsword and attacks you!")
+        human_enemy = Enemy("Human", 100, 0, 10, 10, 10)
+        battle(player_hero, human_enemy)
