@@ -6,17 +6,15 @@
 
 import random
 
-
-class Hero:
-    def __init__(self, name, health, mana, strength, agility, intelligence, level=1, exp=0):
+class Character:
+    def __init__(self, name, health, mana, strength, agility, intelligence):
         self.name = name
         self.health = health
         self.mana = mana
         self.strength = strength
         self.agility = agility
         self.intelligence = intelligence
-        self.level = level
-        self.exp = exp
+        self.inventory = []
 
     def attack(self, target):
         damage = self.strength * 2
@@ -32,6 +30,15 @@ class Hero:
         else:
             return False
 
+    def add_to_inventory(self, item):
+        self.inventory.append(item)
+
+class Hero(Character):
+    def __init__(self, name, health, mana, strength, agility, intelligence, level=1, exp=0):
+        super().__init__(name, health, mana, strength, agility, intelligence)
+        self.level = level
+        self.exp = exp
+
     def gain_exp(self, amount):
         self.exp += amount
         if self.exp >= 100 * self.level:
@@ -46,6 +53,29 @@ class Hero:
         self.agility += 2
         self.intelligence += 2
         print(f"{self.name} leveled up to level {self.level}!")
+
+class Enemy(Character):
+    def __init__(self, name, health, mana, strength, agility, intelligence):
+        super().__init__(name, health, mana, strength, agility, intelligence)
+
+class Paladin(Hero):
+    def heal(self):
+        if self.mana >= 10:
+            self.health += 10
+            self.mana -= 10
+            print(f"{self.name} healed for 10 health points!")
+        else:
+            print(f"{self.name} doesn't have enough mana to heal!")
+
+class Sorcerer(Hero):
+    def cast_spell(self, target):
+        if self.mana >= 10:
+            damage = self.intelligence * 3
+            target.receive_damage(damage)
+            self.mana -= 10
+            print(f"{self.name} casted a spell on {target.name} for {damage} damage!")
+       
+
 
 
 def create_hero():
@@ -220,9 +250,11 @@ print("As you are walking through the forest, you approach a small clearing. In 
 print("You approach the fire and tents, it looks as though there are just a few sparks of flame left in the fire. There is a teapot nearby, you touch it, it is cold to the touch.")
 print("1. Investigate the area further.")
 print("2. Leave the area.")
-decision1 = input("Pick an option...")
+
+inventory = []  # Assuming inventory is an empty list initially
 
 while True:
+    decision1 = input("Pick an option...")  # Moved inside the loop
     if decision1 == "1":
         print("\nYou decide to investigate the area further. You take a look inside the tent closest to you, inside you see an unfurled bedroll and a broken lamp.")
         print("You look around the campsite, on the other end of the fire you see a small wooden crate.")
@@ -234,9 +266,12 @@ while True:
         print(f"Inventory: {inventory}")
         print("You close the crate and leave the area.")
         break
-    if decision1 == "2":
+    elif decision1 == "2":
         print("You leave the area and move on.")
         break
+    else:
+        print("Invalid option, please try again.")
+
 
 print("\nYou continue traversing through the forest, you are travelling North towards the Kingdom of Aeterna.")
 print("As you walk, the wind starts to pick up, and you feel the air changing. It is about to start raining...")
@@ -303,5 +338,6 @@ if decision3 == "1":
     if decision4 == "3":
         print("What are you doing? Put that thing away before you get hurt!")
         print("The man pulls out a shortsword and attacks you!")
-        human_enemy = Enemy("Human", 100, 0, 10, 10, 10)
+        human_enemy = Enemy("Human", 100, 0, 100, 10, 10)
         battle(player_hero, human_enemy)
+        player_hero.gain_exp(100)
